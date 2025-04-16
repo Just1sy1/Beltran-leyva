@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beltrán-Leyva-Kartell</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #111;
+            color: #eee;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            padding: 2rem;
+        }
+        img {
+            max-width: 200px;
+            margin-top: 1rem;
+        }
+        h1 {
+            color: red;
+            margin-bottom: 0.5rem;
+        }
+        .question {
+            margin: 1rem 0;
+            font-size: 1.2rem;
+        }
+        select, input[type="text"] {
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            width: 100%;
+            max-width: 400px;
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        button {
+            margin-top: 1.5rem;
+            padding: 0.75rem 2rem;
+            background-color: green;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 2rem;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Beltrán-Leyva-Kartell</h1>
+        <p>„Du willst Teil des Beltrán-Leyva-Kartells werden? Nur die Stärksten, Klügsten und Loyalsten kommen rein. Beweise dich. Beantworte die 10 Fragen korrekt – sonst brauchst du’s gar nicht erst versuchen.“</p>
+        <img src="logo.png" alt="Kartell Logo">
+        <form id="quizForm">
+            <div class="question">1. Was ist das Wichtigste in einem Kartell?<br><select><option>Wähle...</option><option value="richtig">Loyalität</option><option>Geld</option><option>Macht</option></select></div>
+            <div class="question">2. Wie muss ich gekleidet sein?<br><select><option>Wähle...</option><option value="richtig">Nach vorgegebener Kleidung</option><option>Wie ich will</option></select></div>
+            <div class="question">3. Was ist Pflicht?<br><select><option>Wähle...</option><option value="richtig">GPS, Funk</option><option>Waffe</option></select></div>
+            <div class="question">4. Sage mir 2 Stärken und 2 Schwächen:<br><input type="text"></div>
+            <div class="question">5. Wie verhalte ich mich gegenüber anderen Familien?<br><select><option>Wähle...</option><option value="richtig">Respektvoll, Kein unnötigen Stress</option><option>Provokant</option></select></div>
+            <div class="question">6. Auf wen musst du hören?<br><select><option>Wähle...</option><option value="richtig">Auf hochrangigen</option><option>Auf niemanden</option></select></div>
+            <div class="question">7. Was passiert, wenn man sich nicht an Regeln hält?<br><select><option>Wähle...</option><option value="richtig">Sanktion</option><option>Gar nichts</option></select></div>
+            <div class="question">8. Was erwartet das Kartell von neuen Mitgliedern?<br><select><option>Wähle...</option><option value="richtig">Treue</option><option>Waffen</option></select></div>
+            <div class="question">9. Was passiert mit einem Verräter im Kartell?<br><select><option>Wähle...</option><option value="richtig">Bloodout</option><option>Entlassung</option></select></div>
+            <div class="question">10. Warum genau wir? Warum keine andere Familie?<br><input type="text"></div>
+            <button type="submit">Abschicken</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        document.getElementById("quizForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let correct = true;
+            document.querySelectorAll("select").forEach(select => {
+                if (select.value !== "richtig") correct = false;
+            });
+            const resultDiv = document.getElementById("result");
+            if (correct) {
+                resultDiv.innerHTML = `Respekt. Du hast das Zeug zum Soldado. Gib deinen Discord-Namen an:<br><input type='text' placeholder='Discord-Name'><br><button onclick="alert('Wir melden uns!')">Absenden</button>`;
+            } else {
+                resultDiv.textContent = "Nicht gut genug. Versuch es erneut – vielleicht bist du morgen bereit.";
+            }
+        });
+    </script>
+</body>
+</html>
+
+    </form>
+    </div>
+    <script>
+        function checkAnswers() {
+            const form = document.forms["quizForm"];
+            const answers = {
+                q1: "loyalität",
+                q2: "nach vorgabe",
+                q3: "gpsfunk",
+                q5: "respektvoll",
+                q6: "hochrangigen",
+                q7: "sanktion",
+                q8: "treue",
+                q9: "bloodout"
+            };
+
+            let correct = true;
+
+            for (let key in answers) {
+                if (!form[key] || form[key].value !== answers[key]) {
+                    correct = false;
+                    break;
+                }
+            }
+
+            const q4 = Array.from(form.querySelectorAll('input[name="q4"]:checked')).map(el => el.value);
+            if (q4.length !== 4) {
+                correct = false;
+            }
+
+            const q10 = form["q10"].value.trim();
+            if (q10 === "") {
+                correct = false;
+            }
+
+            if (correct) {
+                document.getElementById("discordField").classList.remove("hidden");
+                document.getElementById("failMessage").classList.add("hidden");
+            } else {
+                document.getElementById("failMessage").classList.remove("hidden");
+                document.getElementById("discordField").classList.add("hidden");
+            }
+        }
+    </script>
+</body>
+</html>
